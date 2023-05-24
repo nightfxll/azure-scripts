@@ -1,0 +1,28 @@
+# Create VM
+az vm create --resource-group --name --vnet-name --subnet --image --admin-username --admin-password
+
+# list VMs
+
+az vm list \
+    --resource-group \
+    --query "[*].{Name:name, PrivateIP:privateIps, PublicIP: publicIps}" \
+    --show-details \
+    --output table
+
+# CLI / Deploy to resource group with template
+az deployment group create \
+    --resource-group \
+    --template-file
+
+# CLI / Deploy to subscription with template
+az deployment sub create \
+    --location \
+    --template-file \
+
+# CLI / Deploy to management group with template
+az deployment mg create \
+    --location \
+    --template-file \
+
+# Powershell / Deploy to resource group with template and parameters file
+New-AzResourceGroupDeployment -ResourceGroupName -TemplateFile -TemplateParameterFile

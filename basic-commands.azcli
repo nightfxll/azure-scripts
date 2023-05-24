@@ -1,0 +1,5 @@
+# Define a function as a variable
+VARIABLE=$()
+
+# Print the variable
+echo $VARIABLE

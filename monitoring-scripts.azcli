@@ -1,0 +1,17 @@
+# Obtain resource ID of VM
+az vm show \
+    --resource-group learn-bf4087ab-c03f-4637-aa94-33bc594f6e13 \
+    --name vm1 \
+    --query id \
+    --output tsv
+
+# Create new metric alert
+az monitor metrics alert create \
+    -n \
+    --resource-group \
+    --scopes \
+    --condition \
+    --description \
+    --evaluation-frequency \
+    --windows-size \
+    --severity

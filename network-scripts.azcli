@@ -1,0 +1,101 @@
+# These scripts are Azure CLI
+
+# Create virtual network
+az network vnet create \
+    --name \
+    --resource-group \
+    --address-prefixes
+    --subnet-name \
+    --subnet-prefixes
+
+# Create peering between two VNs
+az network vnet peering create \
+    --name \
+    --remote-vnet \
+    --resource-group \
+    --vnet-name \
+    --allow-vnet-access 
+
+# Check peering list
+az network vnet peering list \
+    --resource-group \
+    --vnet-name \
+    --query "[].{Name:name, Resource:resourceGroup, PeeringState:peeringState, AllowVnetAccess:allowVirtualNetworkAccess}"\
+    --output table
+
+# Create subnet 
+az network vnet subnet create \
+    --name \
+    --vnet-name \
+    --resource-group \
+    --address-prefixes \
+
+# Check effective routes between NICs
+az network nic show-effective-route-table
+    --resource-group \
+    --name \
+    --output table
+
+# List NICs
+az network nic list \
+    --output table 
+
+# Create new route table
+az network route-table create
+    --name \
+    --resource-group \
+    --disable-bgp-route-propagation false
+
+# Create custom route
+az network route-table route create
+    --route-table-name \
+    --resource-group \
+    --name \
+    --address-prefix \
+    --next-hop-type \
+    --next-hop-ip-address
+
+# Associate route table wwith subnet
+az network vnet subnet update \
+    --name \
+    --vnet-name \
+    --resource-group \
+    --route-table
+
+# Get ID of network interface
+az vm nic list \
+    --resource-group \
+    --vm-name \
+    --query "[].{id:id}"
+    --output tsv
+
+# Get name of network interface
+az vm nic show \
+    --resource-group \
+    --vm-name \
+    --nic \
+    --query "{name:name}"
+    --output tsv
+
+# Enable IP forwarding
+az network nic update \
+    --name \
+    --resource-group \
+    --ip-forwarding true
+
+# Get public IP of VM | if defining as a variable, convert to string " " 
+az vm list-ip-addresses \
+    --resource-group \
+    --name \
+    --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress"
+    --output tsv
+
+# SSH | Enable IP forwarding
+ssh -t -o StrictHostKeyChecking=no <username>@<IP> 'sudo sysctl -w net.ipv4.ip_forward=1; exit;'
+
+# Install traceroute
+package_upgrade: true
+packages:
+    - inetutils-traceroute
+
+s
